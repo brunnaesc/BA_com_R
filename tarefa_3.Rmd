@@ -1,0 +1,43 @@
+---
+title: "tarefa 3"
+output: pdf_document
+---
+
+
+```{r setup}
+
+library(riskR)
+library(tidyverse)
+
+```
+
+```{r EDA}
+
+data("returns")
+
+ret <- get("returns") %>% 
+  rename(dt = Date) %>% 
+  pivot_longer(cols = c("SP500", "AAPL", "BAC", "DOW", "SUNE"),
+               names_to = "papel",
+               values_to = "retorno")
+
+```
+
+```{r AAPL}
+
+ret %>% 
+  filter(papel == "AAPL") %>% 
+  summarise(media = mean(retorno),
+            max = max(retorno),
+            min = min(retorno),
+            sd = sd(retorno))
+
+
+ret %>% 
+  filter(papel == "AAPL") %>% 
+  ggplot(aes(x = retorno)) +
+  geom_histogram()
+
+```
+
+
